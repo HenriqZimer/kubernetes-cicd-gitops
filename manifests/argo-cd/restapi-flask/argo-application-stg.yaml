@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: restapi-flask-stg
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: restapi-flask
+    app.kubernetes.io/component: application
+    app.kubernetes.io/managed-by: kubectl
+    environment: staging
+spec:
+  syncPolicy:
+    automated: {}
+    syncOptions:
+    - CreateNamespace=true
+  project: application
+  source:
+    repoURL: ssh://git@gitea.henriqzimer.com.br/HenriqZimer/helm-applications.git
+    path: restapi-flask
+    targetRevision: main
+    helm:
+      releaseName: flask
+      valueFiles:
+        - values-stg.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: api-stg

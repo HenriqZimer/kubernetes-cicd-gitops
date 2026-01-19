@@ -1,0 +1,106 @@
+# ═══════════════════════════════════════════════════════════════
+# GitFlow CI/CD Stack - GitIgnore
+# ═══════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────
+# Sensitive Kubernetes Resources - NEVER COMMIT THESE
+# ───────────────────────────────────────────────────────────────
+**/secret-*.yaml
+**/secrets/
+
+# Kubernetes secrets (if accidentally exported)
+*.secret.yaml
+*-secrets.yaml
+
+# ───────────────────────────────────────────────────────────────
+# Credentials and Tokens
+# ───────────────────────────────────────────────────────────────
+*.key
+*.crt
+*.pem
+*.p12
+*.pfx
+*.cer
+kubeconfig*
+!kubeconfig.example
+.kube/
+.env
+.env.local
+.env.*.local
+
+# Vault unseal keys (NEVER commit these!)
+vault-keys.txt
+unseal-keys.txt
+root-token.txt
+
+# ───────────────────────────────────────────────────────────────
+# Helm
+# ───────────────────────────────────────────────────────────────
+charts/
+*.tgz
+Chart.lock
+helmfile.lock
+
+# ───────────────────────────────────────────────────────────────
+# Terraform (if used)
+# ───────────────────────────────────────────────────────────────
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!*.tfvars.example
+.terraform.lock.hcl
+
+# ───────────────────────────────────────────────────────────────
+# Temporary Files
+# ───────────────────────────────────────────────────────────────
+tmp/
+temp/
+*.tmp
+*.bak
+*.backup
+*.swp
+*.swo
+*~
+*.orig
+
+# ───────────────────────────────────────────────────────────────
+# IDE and Editor
+# ───────────────────────────────────────────────────────────────
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+.DS_Store
+Thumbs.db
+.Trash-*
+Desktop.ini
+.AppleDouble
+.LSOverride
+ehthumbs.db
+
+# ───────────────────────────────────────────────────────────────
+# Logs
+# ───────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ───────────────────────────────────────────────────────────────
+# Local Override Files
+# ───────────────────────────────────────────────────────────────
+values.local.yaml
+*-local.yaml
+override-*.yaml
+local-*.yaml
+local/
+.local/
+
+# ───────────────────────────────────────────────────────────────
+# Build and Cache
+# ───────────────────────────────────────────────────────────────
+.cache/
+dist/
+build/

@@ -1,0 +1,57 @@
+repositories:
+  - name: jenkins
+    url: https://charts.jenkins.io
+
+  - name: harbor
+    url: https://helm.goharbor.io
+
+  - name: sonarqube
+    url: https://SonarSource.github.io/helm-chart-sonarqube
+
+  - name: argo
+    url: https://argoproj.github.io/argo-helm
+
+  - name: imagepullsecret-patcher
+    url: https://empathyco.github.io/helm-charts/
+
+releases:
+  - name: jenkins
+    namespace: jenkins
+    createNamespace: true
+    chart: jenkins/jenkins
+    version: 5.8.114
+    values:
+      - values/jenkins/values.yaml
+
+  - name: harbor
+    namespace: harbor
+    createNamespace: true
+    chart: harbor/harbor
+    version: 1.18.0
+    values:
+      - values/harbor/values.yaml
+
+  - name: sonarqube
+    namespace: sonarqube
+    createNamespace: true
+    chart: sonarqube/sonarqube
+    version: 2025.5.0
+    values:
+      - values/sonarqube/values.yaml
+
+  - name: argocd
+    namespace: argocd
+    createNamespace: true
+    chart: argo/argo-cd
+    version: 9.1.4
+    values:
+      - values/argocd/values.yaml
+
+  - name: imagepullsecret-patcher
+    namespace: imagepullsecret-patcher
+    createNamespace: true
+    chart: empathyco/imagepullsecret-patcher
+    version: 1.0.0
+    values:
+      - values/imagepullsecret-patcher/values.yaml
+  

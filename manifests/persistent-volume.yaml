@@ -1,0 +1,223 @@
+# ===========================================
+# PVs e PVCs Estáticos - Sempre usam as mesmas pastas no NFS
+# ===========================================
+
+# PV Estático para Jenkins
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-pv
+  labels:
+    app.kubernetes.io/name: jenkins
+    app.kubernetes.io/component: storage
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-static
+  nfs:
+    server: altaria.henriqzimer.com.br
+    path: /mnt/altaria/kubernetes/jenkins/app
+  mountOptions:
+    - vers=4.1
+    - hard
+    - intr
+---
+# PV Estático para Jenkins Artifacts
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-artifacts-pv
+  labels:
+    app.kubernetes.io/name: jenkins
+    app.kubernetes.io/component: storage
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-static
+  nfs:
+    server: altaria.henriqzimer.com.br
+    path: /mnt/altaria/kubernetes/jenkins/artifacts
+  mountOptions:
+    - vers=4.1
+    - hard
+    - intr
+---
+# PV Estático para SonarQube
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sonarqube-pv
+  labels:
+    app.kubernetes.io/name: sonarqube
+    app.kubernetes.io/component: storage
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-static
+  nfs:
+    server: altaria.henriqzimer.com.br
+    path: /mnt/altaria/kubernetes/sonarqube/app
+  mountOptions:
+    - vers=4.1
+    - hard
+    - intr
+---
+# PV Estático para PostgreSQL do SonarQube
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: sonarqube-postgresql-pv
+  labels:
+    app.kubernetes.io/name: sonarqube-postgresql
+    app.kubernetes.io/component: database
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-static
+  nfs:
+    server: altaria.henriqzimer.com.br
+    path: /mnt/altaria/kubernetes/sonarqube/postgresql
+  mountOptions:
+    - vers=4.1
+    - hard
+    - intr
+---
+# PV para Harbor Registry
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-registry-pv
+  labels:
+    app.kubernetes.io/name: harbor
+    app.kubernetes.io/component: registry
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-static
+  nfs:
+    server: altaria.henriqzimer.com.br
+    path: /mnt/altaria/kubernetes/harbor/registry
+  mountOptions:
+    - vers=4.1
+    - hard
+    - intr
+---
+# PV para Harbor JobService
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-jobservice-pv
+  labels:
+    app.kubernetes.io/name: harbor
+    app.kubernetes.io/component: jobservice
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-static
+  nfs:
+    server: altaria.henriqzimer.com.br
+    path: /mnt/altaria/kubernetes/harbor/jobservice
+  mountOptions:
+    - vers=4.1
+    - hard
+    - intr
+---
+# PV para Harbor Database
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-postgresql-pv
+  labels:
+    app.kubernetes.io/name: harbor-postgresql
+    app.kubernetes.io/component: database
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-static
+  nfs:
+    server: altaria.henriqzimer.com.br
+    path: /mnt/altaria/kubernetes/harbor/postgresql
+  mountOptions:
+    - vers=4.1
+    - hard
+    - intr
+---
+# PV para Harbor Redis
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-redis-pv
+  labels:
+    app.kubernetes.io/name: harbor-redis
+    app.kubernetes.io/component: cache
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-static
+  nfs:
+    server: altaria.henriqzimer.com.br
+    path: /mnt/altaria/kubernetes/harbor/redis
+  mountOptions:
+    - vers=4.1
+    - hard
+    - intr
+---
+# PV para Harbor Trivy
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: harbor-trivy-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-static
+  nfs:
+    server: altaria.henriqzimer.com.br
+    path: /mnt/altaria/kubernetes/harbor/trivy
+  mountOptions:
+    - vers=4.1
+    - hard
+    - intr

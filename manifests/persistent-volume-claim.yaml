@@ -1,0 +1,181 @@
+# ===========================================
+# PVs e PVCs Estáticos - Sempre usam as mesmas pastas no NFS
+# ===========================================
+
+# PVC para Jenkins
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pvc
+  namespace: jenkins
+  labels:
+    app.kubernetes.io/name: jenkins
+    app.kubernetes.io/component: storage
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-static
+  volumeName: jenkins-pv
+  resources:
+    requests:
+      storage: 8Gi
+---
+# PVC para Jenkins
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-artifacts-pvc
+  namespace: jenkins
+  labels:
+    app.kubernetes.io/name: jenkins
+    app.kubernetes.io/component: storage
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-static
+  volumeName: jenkins-artifacts-pv
+  resources:
+    requests:
+      storage: 1Gi
+---
+# PVC para SonarQube
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarqube-pvc
+  namespace: sonarqube
+  labels:
+    app.kubernetes.io/name: sonarqube
+    app.kubernetes.io/component: storage
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-static
+  resources:
+    requests:
+      storage: 5Gi
+---
+# PVC para PostgreSQL do SonarQube
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sonarqube-postgresql-pvc
+  namespace: sonarqube
+  labels:
+    app.kubernetes.io/name: sonarqube-postgresql
+    app.kubernetes.io/component: database
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-static
+  resources:
+    requests:
+      storage: 20Gi
+---
+# PVC para Harbor Registry
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: harbor-registry-pvc
+  namespace: harbor
+  labels:
+    app.kubernetes.io/name: harbor
+    app.kubernetes.io/component: registry
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-static
+  volumeName: harbor-registry-pv
+  resources:
+    requests:
+      storage: 5Gi
+---
+# PVC para Harbor JobService
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: harbor-jobservice-pvc
+  namespace: harbor
+  labels:
+    app.kubernetes.io/name: harbor
+    app.kubernetes.io/component: jobservice
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-static
+  volumeName: harbor-jobservice-pv
+  resources:
+    requests:
+      storage: 1Gi
+---
+# PVC para Harbor Database
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: harbor-postgresql-pvc
+  namespace: harbor
+  labels:
+    app.kubernetes.io/name: harbor-postgresql
+    app.kubernetes.io/component: database
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-static
+  volumeName: harbor-postgresql-pv
+  resources:
+    requests:
+      storage: 10Gi
+---
+# PVC para Harbor Redis
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: harbor-redis-pvc
+  namespace: harbor
+  labels:
+    app.kubernetes.io/name: harbor-redis
+    app.kubernetes.io/component: cache
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-static
+  volumeName: harbor-redis-pv
+  resources:
+    requests:
+      storage: 1Gi
+---
+# PVC para Harbor Trivy
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: harbor-trivy-pvc
+  namespace: harbor
+  labels:
+    app.kubernetes.io/name: harbor-trivy
+    app.kubernetes.io/component: security-scanner
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: nfs-static
+  volumeName: harbor-trivy-pv
+  resources:
+    requests:
+      storage: 5Gi

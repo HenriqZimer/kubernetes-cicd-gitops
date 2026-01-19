@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: meu-site-dev
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: meu-site
+    app.kubernetes.io/component: application
+    app.kubernetes.io/managed-by: kubectl
+    environment: development
+spec:
+  syncPolicy:
+    automated: {}
+    syncOptions:
+    - CreateNamespace=true
+  project: application
+  source:
+    repoURL: ssh://git@github.com/henriqzimer/helm-applications.git
+    path: meu-site
+    targetRevision: main
+    helm:
+      releaseName: meu-site
+      valueFiles:
+        - values-dev.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: meu-site-dev

@@ -1,0 +1,44 @@
+---
+# Namespace jenkins
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: jenkins
+  labels:
+    app.kubernetes.io/name: jenkins
+    app.kubernetes.io/component: ci-cd
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+---
+# # Namespace sonarqube
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sonarqube
+  labels:
+    app.kubernetes.io/name: sonarqube
+    app.kubernetes.io/component: code-quality
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+---
+# Namespace harbor
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: harbor
+  labels:
+    app.kubernetes.io/name: harbor
+    app.kubernetes.io/component: container-registry
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
+---
+# Namespace argocd
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: argocd
+  labels:
+    app.kubernetes.io/name: argocd
+    app.kubernetes.io/component: gitops
+    app.kubernetes.io/managed-by: helmfile
+    environment: production
