@@ -82,9 +82,9 @@ controller:
     # @default -- <random password>
 
     # -- The key in the existing admin secret containing the username
-    userKey: jenkins-admin-user
+    userKey: admin-user
     # -- The key in the existing admin secret containing the password
-    passwordKey: jenkins-admin-password
+    passwordKey: admin-password
 
     # The default configuration uses this secret to configure an admin user
     # If you don't need that user or use a different security realm, then you can disable it
@@ -92,7 +92,7 @@ controller:
     createSecret: false
 
     # -- The name of an existing secret containing the admin credentials
-    existingSecret: "jenkins-admin-credentials"
+    existingSecret: "jenkins-credentials"
   # -- Email address for the administrator of the Jenkins instance
   jenkinsAdminEmail:
 
@@ -476,10 +476,10 @@ controller:
 
   # -- List of additional existing secrets to mount
   additionalExistingSecrets:
-    - name: jenkins-admin-credentials
-      keyName: jenkins-admin-user
-    - name: jenkins-admin-credentials
-      keyName: jenkins-admin-password
+    - name: jenkins-credentials
+      keyName: admin-user
+    - name: jenkins-credentials
+      keyName: admin-password
   # ref: https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#kubernetes-secrets
   # additionalExistingSecrets:
   #  - name: secret-name-1
@@ -549,7 +549,7 @@ controller:
         users:
         - id: "admin"
           name: "Jenkins Admin"
-          password: "${jenkins-admin-password-jenkins-admin-password}"
+          password: "${admin-user-admin-password}"
 
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Authorization Strategy-section

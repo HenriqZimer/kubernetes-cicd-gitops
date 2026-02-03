@@ -5,12 +5,7 @@
 # ───────────────────────────────────────────────────────────────
 # Sensitive Kubernetes Resources - NEVER COMMIT THESE
 # ───────────────────────────────────────────────────────────────
-**/secret-*.yaml
-**/secrets/
-
-# Kubernetes secrets (if accidentally exported)
-*.secret.yaml
-*-secrets.yaml
+harbor-credentials.yaml
 
 # ───────────────────────────────────────────────────────────────
 # Credentials and Tokens

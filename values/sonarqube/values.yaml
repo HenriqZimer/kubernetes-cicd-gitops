@@ -320,7 +320,7 @@ caCerts:
   #   path: my-certificate.crt
 
 initSysctl:
-  enabled: false
+  enabled: true
   vmMaxMapCount: 524288
   fsFileMax: 131072
   nofile: 131072
@@ -434,7 +434,7 @@ jvmCeOpts: ""
 ## a monitoring passcode needs to be defined in order to get reasonable probe results
 # not setting the monitoring passcode will result in a deployment that will never be ready
 # TODO: Set monitoring passcode via secret - load from Vault using External Secrets
-monitoringPasscodeSecretName: "sonarqube-monitoring-secret"
+monitoringPasscodeSecretName: "sonarqube-credentials"
 monitoringPasscodeSecretKey: "monitoring-passcode"
 # Alternatively, set directly (NOT RECOMMENDED for production):
 # monitoringPasscode: ""
@@ -588,7 +588,7 @@ postgresql:
   # different of postgres, postgresql-postgres-password which will override postgresqlPassword,
   # postgresql-replication-password which will override replication.password and postgresql-ldap-password which will be
   # used to authenticate on LDAP. The value is evaluated as a template.
-  existingSecret: "sonarqube-postgresql-secret"
+  existingSecret: "sonarqube-credentials"
   #
   # The bitnami chart enforces the key to be "postgresql-password". This value is only here for historic purposes
   existingSecretPasswordKey: "postgresql-password"
@@ -697,7 +697,7 @@ setAdminPassword:
   currentPassword: ""
 # The above values can be also provided by a secret that contains "password" and "currentPassword" as keys. You can generate such a secret in your cluster
 # using "kubectl create secret generic admin-password-secret-name --from-literal=password=admin --from-literal=currentPassword=admin"
-  passwordSecretName: "sonarqube-admin-credentials"
+  passwordSecretName: "sonarqube-credentials"
 # Reuse default initcontainers.securityContext that match restricted pod security standard
 #  securityContext: {}
 #  resources:
