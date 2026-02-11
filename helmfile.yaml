@@ -11,7 +11,7 @@ repositories:
   - name: argo
     url: https://argoproj.github.io/argo-helm
 
-  - name: imagepullsecret-patcher
+  - name: empathyco
     url: https://empathyco.github.io/helm-charts/
 
 releases:
@@ -19,7 +19,7 @@ releases:
     namespace: jenkins
     createNamespace: true
     chart: jenkins/jenkins
-    version: 5.8.114
+    version: 5.8.138
     values:
       - values/jenkins/values.yaml
 
@@ -35,7 +35,7 @@ releases:
     namespace: sonarqube
     createNamespace: true
     chart: sonarqube/sonarqube
-    version: 2025.5.0
+    version: 2026.1.0
     values:
       - values/sonarqube/values.yaml
 

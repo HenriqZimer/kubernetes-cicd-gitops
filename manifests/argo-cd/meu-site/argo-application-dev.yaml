@@ -15,8 +15,8 @@ spec:
     - CreateNamespace=true
   project: application
   source:
-    repoURL: ssh://git@github.com/henriqzimer/helm-applications.git
-    path: meu-site
+    repoURL: git@github.com:HenriqZimer/meu-site-helm-chart.git
+    path: chart
     targetRevision: main
     helm:
       releaseName: meu-site

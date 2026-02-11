@@ -32,6 +32,9 @@ renderHelmLabels: true
 # -- Configures extra labels for the agent all objects
 extraLabels: {}
 
+# -- Configures extra manifests
+extraObjects:
+
 controller:
   # -- Used for label app.kubernetes.io/component
   componentName: "jenkins-controller"
@@ -80,6 +83,7 @@ controller:
     username: "admin"
     # -- Admin password created as a secret if `controller.admin.createSecret` is true
     # @default -- <random password>
+    password:
 
     # -- The key in the existing admin secret containing the username
     userKey: admin-user
@@ -191,6 +195,9 @@ controller:
 
   # -- Deprecated in favor of `controller.podSecurityContextOverride`. uid that will be used for persistent volume.
   fsGroup: 1000
+
+  #  -- Deprecated in favor of `controller.podSecurityContextOverride`. fsGroupChangePolicy for the pod security context
+  fsGroupChangePolicy: OnRootMismatch
 
   # If you have PodSecurityPolicies that require dropping of capabilities as suggested by CIS K8s benchmark, put them here
   # securityContextCapabilities:
@@ -351,7 +358,7 @@ controller:
     defaultCrumbIssuer:
       # -- Enable the default CSRF Crumb issuer
       enabled: true
-      # -- Enable proxy compatibility
+      # -- Enable proxy compatibility. This setting is ignored if you are not on the current LTS release and will be dropped with the next LTS.
       proxyCompatability: true
 
   # Kubernetes service type for the JNLP agent service
@@ -420,7 +427,7 @@ controller:
   installLatestSpecifiedPlugins: false
 
   # -- List of plugins to install in addition to those listed in controller.installPlugins
-  additionalPlugins:
+  additionalPlugins: 
     - pipeline-stage-view
     - multibranch-scan-webhook-trigger
     - basic-branch-build-strategies
@@ -472,7 +479,7 @@ controller:
   # and must start and end with an alphanumeric character (e.g. 'my-name', or '123-abc')
   # existingSecret existing secret "secret-credentials" and a key inside it named "github-username" should be used in JCasC as ${github-username}
   # When using existingSecret no need to specify the keyName under additionalExistingSecrets.
-  existingSecret:
+  existingSecret: jenkins-credentials
 
   # -- List of additional existing secrets to mount
   additionalExistingSecrets:
@@ -522,7 +529,7 @@ controller:
 
     # If true, the init container deletes all the plugin config files and Jenkins Config as Code overwrites any existing configuration
     # -- Whether Jenkins Config as Code should overwrite any existing configuration
-    overwriteConfiguration: true
+    overwriteConfiguration: false
     # -- Remote URLs for configuration files.
     configUrls: []
     # - https://acme.org/jenkins.yaml
@@ -547,9 +554,9 @@ controller:
         allowsSignup: false
         enableCaptcha: false
         users:
-        - id: "admin"
+        - id: "${jenkins-credentials-admin-user}"
           name: "Jenkins Admin"
-          password: "${admin-user-admin-password}"
+          password: "${jenkins-credentials-admin-password}"
 
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Authorization Strategy-section
@@ -581,8 +588,10 @@ controller:
         # -- Repository of the image that triggers the reload
         repository: kiwigrid/k8s-sidecar
         # -- Tag for the image that triggers the reload
-        tag: 1.30.7
+        tag: 2.5.0
       imagePullPolicy: IfNotPresent
+      # -- Port for sidecar health probes
+      healthPort: 8060
       resources:
         {}
         #   limits:
@@ -701,6 +710,9 @@ controller:
   # -- Topology spread constraints
   topologySpreadConstraints: {}
 
+  # -- DNS config for the pod
+  dnsConfig: {}
+
   ingress:
     # -- Enables ingress
     enabled: true
@@ -717,10 +729,13 @@ controller:
     #     # Don't use string here, use only integer value!
     #     servicePort: 8080
 
+    # -- Ingress rule pathType, choices are: Exact, ImplementationSpecific, Prefix
+    pathType: ImplementationSpecific
+
     # For Kubernetes v1.14+, use 'networking.k8s.io/v1beta1'
     # For Kubernetes v1.19+, use 'networking.k8s.io/v1'
     # -- Ingress API version
-    apiVersion: "networking.k8s.io/v1"
+    apiVersion: "extensions/v1beta1"
     # -- Ingress labels
     labels: {}
     # -- Ingress annotations
@@ -728,6 +743,8 @@ controller:
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     ingressClassName: nginx
@@ -973,7 +990,7 @@ agent:
     # -- Repository to pull the agent jnlp image from
     repository: "jenkins/inbound-agent"
     # -- Tag of the image to pull
-    tag: "3327.v868139a_d00e0-8"
+    tag: "3355.v388858a_47b_33-12"
   # -- Configure working directory for default agent
   workingDir: "/home/jenkins/agent"
   nodeUsageMode: "NORMAL"
@@ -1265,7 +1282,7 @@ persistence:
   # Requires persistence.enabled: true
   # If defined, PVC must be created manually before volume will be bound
   # -- Provide the name of a PVC
-  existingClaim: "jenkins-pvc"
+  existingClaim: jenkins-pvc
 
   # jenkins data Persistent Volume Storage Class
   # If defined, storageClassName: <storageClass>
@@ -1273,10 +1290,9 @@ persistence:
   # If undefined (the default) or set to null, no storageClassName spec is
   #   set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS & OpenStack)
   # -- Storage class for the PVC
-  storageClass: altaria
+  storageClass: nfs-static
   # -- Annotations for the PVC
-  annotations:
-    helm.sh/resource-policy: keep
+  annotations: {}
   # -- Labels for the PVC
   labels: {}
   # -- The PVC access mode
@@ -1391,4 +1407,4 @@ helmtest:
       # -- Repository of the image used to test the framework
       repository: "bats/bats"
       # -- Tag of the image to test the framework
-      tag: "1.12.0"
+      tag: "1.13.0"
