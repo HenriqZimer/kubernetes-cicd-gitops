@@ -5,7 +5,7 @@
 # ───────────────────────────────────────────────────────────────
 # Sensitive Kubernetes Resources - NEVER COMMIT THESE
 # ───────────────────────────────────────────────────────────────
-harbor-credentials.yaml
+harbor-docker-credentials.yaml
 
 # ───────────────────────────────────────────────────────────────
 # Credentials and Tokens
